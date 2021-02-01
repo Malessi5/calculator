@@ -11,6 +11,11 @@ border-width: 0px;
 color:white;
 background-color:#d48166;
 box-shadow: 1px 1px 2px black;
+
+}
+
+button:focus {
+    outline:none;
 }
 
 button:hover {
@@ -60,8 +65,6 @@ body {
   margin: auto;
   display: grid;
   grid-template-columns: 70px 70px 70px 70px;
-
-  
 }
 
 #button-container {
