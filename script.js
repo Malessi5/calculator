@@ -7,8 +7,9 @@ var solution = 0;
 var counter = 0;
 var dis = "";
 var carryOver = false; 
-const regex = /[0-9]/;
+const regex = /\d/;
 let key = "";
+
 
 
 const display = document.querySelector("#display");
@@ -20,17 +21,19 @@ const clrBtn = document.querySelector("#clear");
 const delBtn = document.querySelector("#backsp");
 const decBtn = document.querySelector(".decimal");
 
-console.log(numBtn);
-console.log(oprBtn);
+const button = document.querySelector("button")
 
+//prevent the enter key from pressing the last clicked button
+button.addEventListener("keydown", function(event) {
+    event.preventDefault()
+});
+
+//keybindings
 document.addEventListener('keyup', (event) => {
     key = event.key;
-    console.log(key);
-    console.log(typeof key);
 
     if (regex.test(key)){
         numberPress(parseInt(key));
-        console.log("added");
     } else {
         switch (key) {
             case "Backspace":
@@ -61,6 +64,8 @@ document.addEventListener('keyup', (event) => {
             operateFunc();
             break;
 
+            default:
+            break;
         }
     }
 
@@ -75,7 +80,7 @@ numBtn.forEach((button) => {
             num.pop();
             carryOver = false;
         }
-         if (num.length < 12) {
+         if (num.length < 11) {
         num.push(button.id);
         subDisplay.textContent = dis += num[counter];
         counter++;
@@ -90,7 +95,7 @@ function numberPress(button){
         num.pop();
         carryOver = false;
     }
-     if (num.length < 12) {
+     if (num.length < 11) {
     num.push(button);
     subDisplay.textContent = dis += num[counter];
     counter++;
@@ -112,22 +117,19 @@ function decimal() {
 
 //backspace button function
 function backspace() {
-    console.log(counter)
+   
     if (counter > 0) {
         if (num.pop() == ".") {
-            console.log(dis)
             dis=dis.slice(0,-1)
             subDisplay.textContent = dis
             counter--;
             decBtn.disabled = false; }
         
         else {
-            console.log(dis)
-            console.log(counter)
             dis=dis.slice(0,-1)
             subDisplay.textContent = dis
             counter--;
-            console.log(num)
+            
             }
     } 
     if (counter == 0 ) {
@@ -159,8 +161,8 @@ function operatorFunc(button) {
         dis = input1 + displayOperator(currentOperator);
         subDisplay.textContent = dis;
         display.textContent = input1;
-        
         currentOperator = button;
+
     } else {
         input1 = parseFloat(num.splice(0,num.length) .join(""));
         currentOperator = button;
@@ -171,9 +173,7 @@ function operatorFunc(button) {
 
     counter = 0;
     decBtn.disabled = false;
-    console.log (input1);
-    console.log(num)
-    console.log(currentOperator);
+ 
 }
 
 //Equals button
@@ -184,6 +184,9 @@ operateButton.addEventListener('click', function() {
 function operateFunc() {
      //convert the array into the second input number
     input2 = parseFloat(num.splice(0,num.length) .join(""));
+    console.log(input1)
+    console.log(currentOperator)
+    console.log(input2)
     solution = operate(currentOperator,input1,input2);
 
     display.textContent = roundSolution(solution);
@@ -201,7 +204,7 @@ function operateFunc() {
 function roundSolution(solution){
     if (!Number.isFinite(solution)){
         return "Error"
-    } else if (solution > 999999999999) {
+    } else if (solution > 99999999999) {
         return "Error"
     } else {
         return Math.round(solution * 10000) / 10000;
@@ -232,19 +235,20 @@ switch(id){
 clrBtn.addEventListener('click', function() {
 clear();
 display.textContent = " ";
-subDisplay.textContent = "0";
-} )
+subDisplay.textContent = " ";
+});
 
 //clear variables function
 function clear() {
     input1 = "";
     input2 = "";
     num=[];
-    currentOperator="";
+   currentOperator="";
     dis="";
     counter = 0;
     decBtn.disabled = false;
     carryOver=false;
+    key="";
 }
 
 //Operator functions
