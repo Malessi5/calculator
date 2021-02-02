@@ -158,6 +158,7 @@ function operatorFunc(button) {
         input2 = parseFloat(num.splice(0,num.length) .join(""));
         // input2 = parseInt(num.splice(0,num.length) .join(""),10);
         input1 = operate(currentOperator,input1,input2);
+        currentOperator = button;
         dis = input1 + displayOperator(currentOperator);
         subDisplay.textContent = dis;
         display.textContent = input1;
